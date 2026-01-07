@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML5 Canvas</title>
+</head>
+<body>
+
+<h2>HTML5 Canvas Example</h2>
+
+<canvas id="myCanvas" width="500" height="300" style="border:1px solid black;"></canvas>
+
+<script>
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Filled Rectangle
+    ctx.fillStyle = "blue";
+    ctx.fillRect(20, 20, 150, 80);
+
+    // Filled Circle
+    ctx.beginPath();
+    ctx.arc(300, 70, 40, 0, 2 * Math.PI);
+    ctx.fillStyle = "green";
+    ctx.fill();
+
+    // Straight Line
+    ctx.beginPath();
+    ctx.moveTo(50, 200);
+    ctx.lineTo(450, 200);
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+
+    // Text
+    ctx.font = "24px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("HTML5 Canvas", 160, 150);
+</script>
+
+</body>
+</html>
