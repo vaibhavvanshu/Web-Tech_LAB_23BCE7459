@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exercise 4</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef2f3;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      background: #34495e;
+      color: white;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .monitor {
+      width: 520px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stats {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .controls {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    button {
+      padding: 8px 14px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: white;
+      font-size: 14px;
+    }
+
+    #pauseBtn { background: #2980b9; }
+    #resetBtn { background: #e67e22; }
+    #clearBtn { background: #e74c3c; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+      max-height: 260px;
+      overflow-y: auto;
+      border-top: 1px solid #ddd;
+      margin-top: 10px;
+    }
+
+    li {
+      padding: 6px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>User Activity Monitor</h2>
+
+<div class="container">
+  <div class="monitor">
+
+    <div class="stats">
+      <div>⏱ Time: <span id="time">0</span> sec</div>
+      <div>🔄 Resets: <span id="resetCount">0</span></div>
+    </div>
+
+    <div class="controls">
+      <button id="pauseBtn">Pause Timer</button>
+      <button id="resetBtn">Reset Log</button>
+      <button id="clearBtn">Clear All History</button>
+    </div>
+
+    <ul id="log"></ul>
+
+  </div>
+</div>
+
+<script>
+  let activities = [];
+  let resetCounter = 0;
+  let time = 0;
+  let loggingEnabled = true;
+  let timer = null;
+  let timerPaused = false;
+  let timerStarted = false;
+
+  const logList = document.getElementById("log");
+  const timeDisplay = document.getElementById("time");
+  const resetDisplay = document.getElementById("resetCount");
+  const pauseBtn = document.getElementById("pauseBtn");
+
+  // Start timer (called only after first interaction)
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (!timerPaused) {
+        time++;
+        timeDisplay.textContent = time;
+      }
+    }, 1000);
+  }
+
+  function startTimerOnFirstAction() {
+    if (!timerStarted) {
+      timerStarted = true;
+      startTimer();
+    }
+  }
+
+  // Log activity
+  function logActivity(message) {
+    if (!loggingEnabled) return;
+
+    activities.push(message);
+
+    const li = document.createElement("li");
+    li.textContent = message;
+    logList.appendChild(li);
+  }
+
+  // Mouse click details
+  document.addEventListener("mousedown", e => {
+    startTimerOnFirstAction();
+
+    if (
+      e.target.id === "resetBtn" ||
+      e.target.id === "clearBtn" ||
+      e.target.id === "pauseBtn"
+    ) return;
+
+    let clickType =
+      e.button === 0 ? "Left Click" :
+      e.button === 1 ? "Middle Click" :
+      "Right Click";
+
+    logActivity(`🖱 ${clickType} at (${e.clientX}, ${e.clientY})`);
+  });
+
+  // Key press details
+  document.addEventListener("keydown", e => {
+    startTimerOnFirstAction();
+    logActivity(`⌨ Key Pressed: "${e.key}"`);
+  });
+
+  // Pause / Resume timer
+  pauseBtn.addEventListener("click", () => {
+    if (!timerStarted) return;
+
+    timerPaused = !timerPaused;
+    pauseBtn.textContent = timerPaused ? "Resume Timer" : "Pause Timer";
+  });
+
+  // Reset log only
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    loggingEnabled = false;
+
+    activities = [];
+    logList.innerHTML = "";
+    time = 0;
+    timeDisplay.textContent = 0;
+
+    resetCounter++;
+    resetDisplay.textContent = resetCounter;
+
+    timerPaused = false;
+    pauseBtn.textContent = "Pause Timer";
+
+    timerStarted = false;
+    clearInterval(timer);
+
+    setTimeout(() => loggingEnabled = true, 100);
+  });
+
+  // Clear everything
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    loggingEnabled = false;
+
+    activities = [];
+    logList.innerHTML = "";
+    time = 0;
+    resetCounter = 0;
+
+    timeDisplay.textContent = 0;
+    resetDisplay.textContent = 0;
+
+    timerPaused = false;
+    pauseBtn.textContent = "Pause Timer";
+
+    timerStarted = false;
+    clearInterval(timer);
+
+    setTimeout(() => loggingEnabled = true, 100);
+  });
+</script>
+
+</body>
+</html>
