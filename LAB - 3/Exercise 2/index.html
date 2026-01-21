@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exercise 2</title>
+</head>
+<body>
+
+<h2>Shopping Cart</h2>
+
+<img src="https://via.placeholder.com/200" width="200" alt="Product Image"><br><br>
+
+<b>Products</b><br><br>
+
+<button onclick="addProduct('Headphones',2000,'electronics')">Add Headphones</button>
+<button onclick="addProduct('Shoes',3000,'fashion')">Add Shoes</button>
+
+<br><br>
+
+<input type="text" id="coupon" placeholder="Enter Coupon Code">
+<button onclick="applyCoupon()">Apply Coupon</button>
+
+<div id="cart"></div>
+
+<script>
+  // 1. Product cart array
+  let cart = [];
+  let couponDiscount = 0;
+
+  function addProduct(name, price, category) {
+    let product = cart.find(p => p.name === name);
+    if (product) {
+      product.qty++;
+    } else {
+      cart.push({ name, price, qty: 1, category });
+    }
+    showCart();
+  }
+
+  function removeProduct(index) {
+    cart.splice(index, 1);
+    showCart();
+  }
+
+  function updateQty(index, qty) {
+    cart[index].qty = Number(qty);
+    if (cart[index].qty <= 0) {
+      removeProduct(index);
+    }
+    showCart();
+  }
+
+  // 4. Coupon parsing using string methods
+  function applyCoupon() {
+    let code = document.getElementById("coupon").value.trim().toUpperCase();
+
+    if (code.startsWith("SAVE10")) {
+      couponDiscount = 0.10;
+    } else if (code.startsWith("SAVE20")) {
+      couponDiscount = 0.20;
+    } else {
+      couponDiscount = 0;
+      alert("Invalid Coupon");
+    }
+    showCart();
+  }
+
+  function showCart() {
+    let cartDiv = document.getElementById("cart");
+    cartDiv.innerHTML = "";
+    let total = 0;
+    let discount = 0;
+
+    cart.forEach((item, index) => {
+      let itemTotal = item.price * item.qty;
+      total += itemTotal;
+
+      cartDiv.innerHTML += `
+        ${item.name} (${item.category}) - ₹${item.price} × 
+        <input type="number" value="${item.qty}" min="1"
+               onchange="updateQty(${index}, this.value)">
+        = ₹${itemTotal}
+        <button onclick="removeProduct(${index})">Remove</button><br>
+      `;
+
+      // 3. Bulk discount
+      if (item.qty >= 3) {
+        discount += itemTotal * 0.05;
+      }
+
+      // Category discount
+      if (item.category === "electronics") {
+        discount += itemTotal * 0.10;
+      }
+    });
+
+    // 5. Apply coupon discount
+    discount += total * couponDiscount;
+
+    let finalTotal = total - discount;
+
+    cartDiv.innerHTML += `
+      <hr>
+      <b>Subtotal:</b> ₹${total}<br>
+      <b>Total Discount:</b> ₹${discount.toFixed(2)}<br>
+      <b>Final Amount:</b> ₹${finalTotal.toFixed(2)}
+    `;
+  }
+</script>
+
+</body>
+</html>
