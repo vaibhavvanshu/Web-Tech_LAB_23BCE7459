@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi Stage Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #fff;
+            width: 600px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #667eea;
+            transition: 0.4s;
+        }
+
+        .stage {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .stage input {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .buttons {
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #667eea;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #5563d8;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        .delete {
+            background: #e74c3c;
+        }
+
+        .delete:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Multi Stage Registration Form</h2>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Stage 1 -->
+    <div class="stage" id="stage1">
+        <h3>Stage 1: Name</h3>
+        <input type="text" id="name" placeholder="Enter your name">
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage" id="stage2">
+        <h3>Stage 2: Email</h3>
+        <input type="email" id="email" placeholder="Enter your email">
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage" id="stage3">
+        <h3>Stage 3: Age</h3>
+        <input type="number" id="age" placeholder="Enter your age">
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage" id="stage4">
+        <h3>Stage 4: Password</h3>
+        <input type="password" id="password" placeholder="Enter password (min 6 chars)">
+    </div>
+
+    <div class="buttons">
+        <button onclick="prevStage()">Previous</button>
+        <button onclick="nextStage()">Next</button>
+    </div>
+
+    <table id="userTable" style="display:none">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+    let currentStage = 1;
+    let users = [];
+
+    // Temporary storage variables
+    let userData = {
+        name: "",
+        email: "",
+        age: "",
+        password: ""
+    };
+
+    showStage();
+
+    function showStage() {
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById("stage" + i).style.display = "none";
+        }
+        document.getElementById("stage" + currentStage).style.display = "block";
+        document.getElementById("progressBar").style.width = (currentStage - 1) * 33 + "%";
+    }
+
+    function validateStage() {
+        if (currentStage === 1) {
+            let name = document.getElementById("name").value.trim();
+            if (name === "") return alert("Name is required"), false;
+            userData.name = name;
+        }
+
+        if (currentStage === 2) {
+            let email = document.getElementById("email").value.trim();
+            if (!email.includes("@")) return alert("Valid email required"), false;
+            userData.email = email;
+        }
+
+        if (currentStage === 3) {
+            let age = document.getElementById("age").value;
+            if (age < 18) return alert("Age must be 18 or above"), false;
+            userData.age = age;
+        }
+
+        if (currentStage === 4) {
+            let pass = document.getElementById("password").value;
+            if (pass.length < 6) return alert("Password too short"), false;
+            userData.password = pass;
+
+            users.push({...userData});
+            renderTable();
+            resetForm();
+            return;
+        }
+        return true;
+    }
+
+    function nextStage() {
+        if (!validateStage()) return;
+        if (currentStage < 4) currentStage++;
+        showStage();
+    }
+
+    function prevStage() {
+        if (currentStage > 1) currentStage--;
+        showStage();
+    }
+
+    function renderTable() {
+        let table = document.getElementById("userTable");
+        let tbody = table.querySelector("tbody");
+        tbody.innerHTML = "";
+        table.style.display = "table";
+
+        users.forEach((u, i) => {
+            let row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${u.name}</td>
+                <td>${u.email}</td>
+                <td>${u.age}</td>
+                <td><button class="delete" onclick="deleteUser(${i})">Delete</button></td>
+            `;
+        });
+    }
+
+    function deleteUser(index) {
+        users.splice(index, 1);
+        renderTable();
+    }
+
+    function resetForm() {
+        currentStage = 1;
+        document.getElementById("progressBar").style.width = "0%";
+        document.querySelectorAll("input").forEach(i => i.value = "");
+        showStage();
+    }
+</script>
+
+</body>
+</html>
