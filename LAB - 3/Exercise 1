@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Exercise 1</title></head>
+<body>
+<h2>Adaptive Registration System</h2>
+<form id="f">
+Name:<input id="name"><br>
+Email:<input id="email"><br>
+Password:<input type="password" id="pwd"><br>
+Confirm:<input type="password" id="cpwd"><br>
+Role:
+<select id="role">
+<option>Student</option>
+<option>Teacher</option>
+<option>Admin</option>
+</select><br>
+<button>Submit</button>
+</form>
+<p id="msg"></p>
+<script>
+f.onsubmit=e=>{
+ e.preventDefault();
+ if(role.value==='Admin' && pwd.value.length<8){msg.innerText='Admin needs strong password';return;}
+ if(pwd.value!==cpwd.value){msg.innerText='Password mismatch';return;}
+ msg.innerText='Registered Successfully';
+}
+</script>
+</body>
+</html>
