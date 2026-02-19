@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX Product Search</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input, select { padding: 8px; margin: 5px 0; width: 250px; }
+    .product { border-bottom: 1px solid #ccc; padding: 8px 0; }
+    .highlight { background: yellow; }
+    .loading { color: orange; }
+  </style>
+</head>
+<body>
+
+<h2>Live Product Search</h2>
+
+<input type="text" id="search" placeholder="Search products..." />
+<br>
+<select id="categoryFilter">
+  <option value="all">All Categories</option>
+  <option value="Electronics">Electronics</option>
+  <option value="Furniture">Furniture</option>
+  <option value="Accessories">Accessories</option>
+</select>
+
+<div id="status"></div>
+<div id="results"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
