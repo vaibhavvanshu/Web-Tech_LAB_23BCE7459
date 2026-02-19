@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Username Availability Checker</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input { padding: 8px; width: 250px; }
+    button { padding: 8px 16px; margin-top: 10px; }
+    .status { margin-top: 8px; font-weight: bold; }
+    .available { color: green; }
+    .taken { color: red; }
+    .loading { color: orange; }
+  </style>
+</head>
+<body>
+
+<h2>Registration Form</h2>
+
+<form id="registerForm">
+  <label>Username:</label><br>
+  <input type="text" id="username" required />
+  <div id="status" class="status"></div>
+
+  <button type="submit">Register</button>
+</form>
+
+<script src="script.js"></script>
+</body>
+</html>
