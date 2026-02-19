@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Management (AJAX CRUD)</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input { padding: 6px; margin: 4px; }
+    button { padding: 6px 12px; margin: 4px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    table, th, td { border: 1px solid #ccc; }
+    th, td { padding: 8px; text-align: center; }
+    .msg { margin-top: 10px; font-weight: bold; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+<h2>Student Management System</h2>
+
+<form id="studentForm">
+  <input type="text" id="id" placeholder="Student ID (optional)" />
+  <input type="text" id="name" placeholder="Name" required />
+  <input type="text" id="dept" placeholder="Department" required />
+  <input type="number" id="marks" placeholder="Marks" required />
+  <button type="submit">Save Student</button>
+</form>
+
+<div id="message" class="msg"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Dept</th>
+      <th>Marks</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="studentTable"></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
