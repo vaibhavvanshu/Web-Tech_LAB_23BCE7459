@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Inventory (JSON)</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input, select { padding: 6px; margin: 4px; }
+    button { padding: 6px 12px; }
+    table { border-collapse: collapse; margin-top: 20px; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    .low-stock { background-color: #ffe6e6; }
+    .out-stock { background-color: #ff4d4d; color: white; }
+    .msg { margin-top: 10px; font-weight: bold; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+
+<h2>Product Inventory System (JSON)</h2>
+
+<input type="text" id="id" placeholder="Product ID">
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="category" placeholder="Category">
+<input type="number" id="price" placeholder="Price">
+<input type="number" id="stock" placeholder="Stock">
+<button onclick="saveProduct()">Save</button>
+
+<br><br>
+
+<select id="categorySearch" onchange="searchCategory()">
+  <option value="all">All Categories</option>
+</select>
+
+<div id="message" class="msg"></div>
+
+<h3>Total Inventory Value: ₹<span id="totalValue">0</span></h3>
+<h4>Total Products: <span id="totalCount">0</span></h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="productTable"></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
