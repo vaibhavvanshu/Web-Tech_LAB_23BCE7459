@@ -1,0 +1,10 @@
+{
+  "products": [
+    { "name": "Laptop", "price": 75000, "category": "Electronics" },
+    { "name": "Mouse", "price": 500, "category": "Electronics" },
+    { "name": "Keyboard", "price": 1200, "category": "Electronics" },
+    { "name": "Chair", "price": 3500, "category": "Furniture" },
+    { "name": "Table", "price": 7000, "category": "Furniture" },
+    { "name": "Bottle", "price": 300, "category": "Accessories" }
+  ]
+}
