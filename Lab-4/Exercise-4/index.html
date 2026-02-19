@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Dashboard (AJAX)</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input { padding: 8px; width: 250px; }
+    button { padding: 8px 16px; }
+    .card {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      width: 300px;
+      border-radius: 8px;
+    }
+    .loading { color: orange; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+<h2>Weather Dashboard</h2>
+
+<input type="text" id="city" placeholder="Enter city name" />
+<button onclick="getWeather()">Search</button>
+
+<div id="status"></div>
+<div id="weatherResult" class="card" style="display:none;"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
