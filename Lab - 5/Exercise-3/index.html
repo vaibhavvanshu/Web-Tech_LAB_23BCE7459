@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Record System (JSON)</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    input { padding: 6px; margin: 4px; }
+    button { padding: 6px 12px; }
+    table { border-collapse: collapse; margin-top: 20px; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    .msg { margin-top: 10px; font-weight: bold; }
+    .error { color: red; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+
+<h2>Student Record System (JSON)</h2>
+
+<input type="text" id="id" placeholder="Student ID">
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="course" placeholder="Course">
+<input type="number" id="marks" placeholder="Marks">
+<button onclick="saveStudent()">Save</button>
+
+<div id="message" class="msg"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Course</th>
+      <th>Marks</th>
+      <th>Grade</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="studentTable"></tbody>
+</table>
+
+<script src="script.js"></script>
+</body>
+</html>
