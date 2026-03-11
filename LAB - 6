@@ -1,0 +1,145 @@
+#Use MongoDB to implement the following DB operations
+#1.Create a database called ‘vehicles’ and write a MongoDB query to select database as “vehicles”.
+use vehicles
+db.temp.insertOne({name:"temp"})
+show dbs
+
+#2.Write a MongoDB query to display all the databases.
+show dbs
+
+#3.Create a collection called ‘two_wheelers’. (use capping) and Create a collection called ‘four_wheelers’.
+db.createCollection("two_wheelers", { capped: true, size: 50000, max: 100 })
+db.createCollection("four_wheelers")
+
+#4.Add 5 two-wheeler details to the collection named ‘two_wheelers’.  Each document consists of following fields as bike_name, model (gear or gearless), category (100cc, 125cc, 150cc, 200cc), colors_available (red, black, blue, sport red etc) as array, manufacturer, performance (out of 10), timestamp (date and year release) and price.
+db.two_wheelers.insertMany([
+{
+bike_name: "Honda Shine",
+model: "gear",
+category: "125cc",
+colors_available: ["red","black","blue"],
+manufacturer: "Honda",
+performance: 8,
+timestamp: new Date("2020-03-15"),
+price: 85000
+},
+{
+bike_name: "TVS Apache",
+model: "gear",
+category: "150cc",
+colors_available: ["black","sport red"],
+manufacturer: "TVS",
+performance: 9,
+timestamp: new Date("2021-05-20"),
+price: 120000
+},
+{
+bike_name: "Activa 6G",
+model: "gearless",
+category: "125cc",
+colors_available: ["white","blue","red"],
+manufacturer: "Honda",
+performance: 7,
+timestamp: new Date("2022-02-10"),
+price: 78000
+},
+{
+bike_name: "Bajaj Pulsar",
+model: "gear",
+category: "200cc",
+colors_available: ["black","red"],
+manufacturer: "Bajaj",
+performance: 9,
+timestamp: new Date("2021-07-18"),
+price: 145000
+},
+{
+bike_name: "Suzuki Access",
+model: "gearless",
+category: "125cc",
+colors_available: ["grey","blue","black"],
+manufacturer: "Suzuki",
+performance: 8,
+timestamp: new Date("2023-01-25"),
+price: 82000
+}
+])
+
+#5.Add 5 four-wheeler details to the collection named ‘four_wheelers’.  Each document consists of following fields as vehicle_name, model (commercial or own), category (car, lorry, bus, mini truck, heavy truck, containers), variants (vxi, zxi, petrol, diesel etc) as array, manufacturer, performance (out of 10), timestamp (date and year release) and price.
+db.four_wheelers.insertMany([
+{
+vehicle_name: "Maruti Swift",
+model: "own",
+category: "car",
+variants: ["vxi","zxi","petrol"],
+manufacturer: "Maruti",
+performance: 8,
+timestamp: new Date("2020-06-10"),
+price: 650000
+},
+{
+vehicle_name: "Tata Ace",
+model: "commercial",
+category: "mini truck",
+variants: ["diesel"],
+manufacturer: "Tata",
+performance: 7,
+timestamp: new Date("2019-04-15"),
+price: 450000
+},
+{
+vehicle_name: "Ashok Leyland Bus",
+model: "commercial",
+category: "bus",
+variants: ["diesel"],
+manufacturer: "Ashok Leyland",
+performance: 8,
+timestamp: new Date("2018-08-20"),
+price: 2500000
+},
+{
+vehicle_name: "Mahindra Bolero",
+model: "own",
+category: "car",
+variants: ["zxi","diesel"],
+manufacturer: "Mahindra",
+performance: 7,
+timestamp: new Date("2021-03-11"),
+price: 950000
+},
+{
+vehicle_name: "Volvo Container Truck",
+model: "commercial",
+category: "containers",
+variants: ["diesel"],
+manufacturer: "Volvo",
+performance: 9,
+timestamp: new Date("2022-09-05"),
+price: 4500000
+}
+])
+
+#6.Write a MongoDB query to display all documents available in two_wheelers and four_wheelers.
+db.two_wheelers.find()
+db.four_wheelers.find()
+
+#7.Write a MongoDB query to display only vehicle name and price in all the collection of the database.
+db.two_wheelers.find({}, {bike_name:1, price:1, _id:0})
+db.four_wheelers.find({}, {vehicle_name:1, price:1, _id:0})
+
+#8.Write a MongoDB query to display two_wheelers from a particular company.
+db.two_wheelers.find({manufacturer: "Honda"})
+
+#9.Write a MongoDB query to display four_wheelers available in diesel variants.
+db.four_wheelers.find({variants: "diesel"})
+
+#10.Write a MongoDB query to display vehicles name, category and manufacturer details whose rating is more than 5.
+db.two_wheelers.find(
+{performance: {$gt: 5}},
+{bike_name:1, category:1, manufacturer:1, _id:0}
+)
+
+db.four_wheelers.find(
+{performance: {$gt: 5}},
+{vehicle_name:1, category:1, manufacturer:1, _id:0}
+)
