@@ -1,0 +1,27 @@
+const student = {
+    id: 101,
+    name: "Priya",
+    department: "CSE",
+    marks: 92
+};
+
+// Object destructuring
+const { id, name, department, marks } = student;
+
+console.log(id, name, department, marks);
+
+// Function to assign grade
+const getGrade = (marks) => {
+    if (marks >= 90) return "A";
+    else if (marks >= 75) return "B";
+    else if (marks >= 60) return "C";
+    else return "D";
+};
+
+// Spread operator to create new object
+const updatedStudent = {
+    ...student,
+    grade: getGrade(marks)
+};
+
+console.log(updatedStudent);
